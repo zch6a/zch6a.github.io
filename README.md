@@ -32,12 +32,15 @@ OpenReview / ACL ARR 要求那个网址上**同时能看到你的姓名和邮箱
 
 ## 部署到 GitHub Pages
 
+git 仓库和首次 commit 已经建好了（分支 `main`），只剩关联远端和推送。
+
 1. 注册 / 登录 [github.com](https://github.com)。
-2. 新建仓库，名字填 `<你的用户名>.github.io`，Public，不要勾选任何初始化文件。
+2. 新建仓库，名字填 `<你的用户名>.github.io`，Public，**不要**勾选任何初始化文件
+   （不要 README、不要 .gitignore、不要 license）。
 3. 在本目录执行（把两处 `<你的用户名>` 换成实际用户名）：
 
 ```bash
-git init -b main && git add -A && git commit -m "Add personal homepage" && git remote add origin https://github.com/<你的用户名>/<你的用户名>.github.io.git && git push -u origin main
+git remote add origin https://github.com/<你的用户名>/<你的用户名>.github.io.git; git push -u origin main
 ```
 
 4. 仓库页 → **Settings** → **Pages** → Source 选 `Deploy from a branch`，
