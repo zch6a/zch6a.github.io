@@ -30,26 +30,12 @@ OpenReview / ACL ARR 要求那个网址上**同时能看到你的姓名和邮箱
 - 不要把邮箱写成 `name [at] domain` 或做成图片防爬虫 —— 核验会不通过。
 - 填进表单的网址必须以 `https://` 开头，且是**公开可访问**的（别填 localhost，别填需要登录的链接）。
 
-## 部署到 GitHub Pages
+## 已部署
 
-git 仓库和首次 commit 已经建好了（分支 `main`），只剩关联远端和推送。
+- 线上地址：<https://zch6a.github.io/>
+- 仓库：<https://github.com/zch6a/zch6a.github.io>（分支 `main`，Pages 从 `/ (root)` 发布）
 
-1. 注册 / 登录 [github.com](https://github.com)。
-2. 新建仓库，名字填 `<你的用户名>.github.io`，Public，**不要**勾选任何初始化文件
-   （不要 README、不要 .gitignore、不要 license）。
-3. 在本目录执行（把两处 `<你的用户名>` 换成实际用户名）：
-
-```bash
-git remote add origin https://github.com/<你的用户名>/<你的用户名>.github.io.git; git push -u origin main
-```
-
-4. 仓库页 → **Settings** → **Pages** → Source 选 `Deploy from a branch`，
-   Branch 选 `main` + `/ (root)` → Save。
-5. 等 1–2 分钟，打开 `https://<你的用户名>.github.io/` 确认能看到姓名和邮箱。
-6. 把这个网址填进注册表单的 **Homepage URL** 字段。
-7. 回到 `index.html`，把 `og:url` 那一行改成这个真实网址。
-
-以后每次改完内容：
+以后每次改完内容，在本目录执行：
 
 ```bash
 git add -A && git commit -m "Update homepage" && git push
