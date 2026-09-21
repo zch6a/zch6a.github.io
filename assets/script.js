@@ -26,10 +26,23 @@
     onScroll();
   }
 
-  /* ---------- 入场动画 ---------- */
+  /* ---------- 入场动画 ----------
+     .reveal 起始是 opacity:0，所以这段代码一旦不生效，内容就会永久不可见。
+     这对一个"给审稿人核验用"的页面是不能接受的失败模式，因此下面留了安全网。 */
   var revealables = document.querySelectorAll(".reveal");
+
+  /* 硬显示：直接卸掉 .reveal（唯一把 opacity 设为 0 的地方），
+     而不是加 .in 去跑淡入过渡 —— 过渡本身也可能不执行
+     （隐藏标签页、零高度视口、无头浏览器），那样内容照样看不见。 */
+  var showAll = function () {
+    revealables.forEach(function (el) {
+      el.classList.remove("reveal");
+      el.classList.add("in");
+    });
+  };
+
   if (reduced || !("IntersectionObserver" in window)) {
-    revealables.forEach(function (el) { el.classList.add("in"); });
+    showAll();
   } else {
     var ro = new IntersectionObserver(function (entries, obs) {
       entries.forEach(function (e) {
@@ -39,6 +52,16 @@
       });
     }, { rootMargin: "0px 0px -8% 0px", threshold: 0.06 });
     revealables.forEach(function (el) { ro.observe(el); });
+
+    /* 安全网：正常情况下首屏那一节会立刻被观察到。如果 2.5 秒后一个都没亮，
+       说明观察器没工作（零高度视口、异常的无头浏览器、爬虫等），
+       此时直接全部显示 —— 宁可丢掉动画，也不能让内容消失。 */
+    setTimeout(function () {
+      var anyShown = Array.prototype.some.call(revealables, function (el) {
+        return el.classList.contains("in");
+      });
+      if (!anyShown) showAll();
+    }, 2500);
   }
 
   /* ---------- 邮箱一键复制 ---------- */
