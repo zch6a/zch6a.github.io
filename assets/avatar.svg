@@ -1,13 +1,22 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="Placeholder avatar">
-  <title>Placeholder avatar — replace with assets/avatar.jpg</title>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="Chuanhao Zhao">
+  <title>Chuanhao Zhao — 换成真人照片：存成 assets/avatar.jpg 并改 index.html 里的 img src</title>
   <defs>
-    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#5c8cba"/>
-      <stop offset="1" stop-color="#2f5d8a"/>
+    <linearGradient id="bg" x1="0" y1="0" x2="0.85" y2="1">
+      <stop offset="0"    stop-color="#4f9cbb"/>
+      <stop offset="0.55" stop-color="#2b6b8f"/>
+      <stop offset="1"    stop-color="#1e4f6b"/>
     </linearGradient>
+    <radialGradient id="sheen" cx="0.3" cy="0.22" r="0.75">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0.28"/>
+      <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
+    </radialGradient>
   </defs>
-  <rect width="200" height="200" rx="100" fill="url(#g)"/>
+
+  <circle cx="100" cy="100" r="100" fill="url(#bg)"/>
+  <circle cx="100" cy="100" r="100" fill="url(#sheen)"/>
+  <circle cx="100" cy="100" r="86" fill="none" stroke="#ffffff" stroke-opacity="0.18" stroke-width="1"/>
+
   <text x="100" y="104" text-anchor="middle" dominant-baseline="middle"
-        font-family="Georgia, 'Times New Roman', serif" font-size="74"
-        letter-spacing="2" fill="#ffffff" fill-opacity="0.92">CZ</text>
+        font-family="Georgia, 'Times New Roman', 'Iowan Old Style', serif"
+        font-size="72" letter-spacing="3" fill="#ffffff" fill-opacity="0.95">CZ</text>
 </svg>

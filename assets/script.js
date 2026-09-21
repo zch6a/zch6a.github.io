@@ -1,9 +1,10 @@
-/* Personal homepage — progressive enhancement only.
-   Everything here is optional: the page reads fine with JS disabled. */
+/* Chuanhao Zhao — homepage.
+   Progressive enhancement only: the page reads fine with JS disabled. */
 (function () {
   "use strict";
 
   var root = document.documentElement;
+  var reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   /* ---------- 深色模式切换 ---------- */
   var toggle = document.getElementById("theme-toggle");
@@ -13,6 +14,31 @@
       root.setAttribute("data-theme", next);
       localStorage.setItem("theme", next);
     });
+  }
+
+  /* ---------- 顶栏滚动阴影 ---------- */
+  var topbar = document.querySelector(".topbar");
+  if (topbar) {
+    var onScroll = function () {
+      topbar.classList.toggle("scrolled", window.scrollY > 8);
+    };
+    addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+  }
+
+  /* ---------- 入场动画 ---------- */
+  var revealables = document.querySelectorAll(".reveal");
+  if (reduced || !("IntersectionObserver" in window)) {
+    revealables.forEach(function (el) { el.classList.add("in"); });
+  } else {
+    var ro = new IntersectionObserver(function (entries, obs) {
+      entries.forEach(function (e) {
+        if (!e.isIntersecting) return;
+        e.target.classList.add("in");
+        obs.unobserve(e.target);
+      });
+    }, { rootMargin: "0px 0px -8% 0px", threshold: 0.06 });
+    revealables.forEach(function (el) { ro.observe(el); });
   }
 
   /* ---------- 邮箱一键复制 ---------- */

@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 
 <!-- ==========================================================
-     这个版本可以直接发布。以后想补充的（都是可选项）：
+     以后想补充的（都是可选项）：
        · 头像：放 assets/avatar.jpg，再把下面 <img src> 改掉
        · GitHub / CV / Scholar 链接：见 hero 里被注释掉的 <ul class="links">
        · News / Publications / Education / Awards：见页面下方被注释掉的整节
@@ -14,6 +14,8 @@
 <title>Chuanhao Zhao</title>
 <meta name="author" content="Chuanhao Zhao" />
 <meta name="description" content="Homepage of Chuanhao Zhao (赵传浩) — undergraduate student at the College of Software, Jilin University. Research interests: large language models, agents, and memory." />
+<meta name="theme-color" content="#fcfcfa" media="(prefers-color-scheme: light)" />
+<meta name="theme-color" content="#0f1216" media="(prefers-color-scheme: dark)" />
 
 <meta property="og:type" content="profile" />
 <meta property="og:title" content="Chuanhao Zhao" />
@@ -23,17 +25,20 @@
 <link rel="icon" href="assets/avatar.svg" />
 <link rel="stylesheet" href="assets/style.css" />
 
-<!-- 防止深色模式闪白，必须内联、必须放在 CSS 之后 -->
+<!-- 必须内联、必须在 CSS 之后：避免深色模式闪白，并标记 JS 可用 -->
 <script>
   (function () {
+    var d = document.documentElement;
+    d.classList.add("js");
     var t = localStorage.getItem("theme");
     if (!t) t = matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
-    document.documentElement.setAttribute("data-theme", t);
+    d.setAttribute("data-theme", t);
   })();
 </script>
 </head>
 
 <body>
+<div class="bg-deco" aria-hidden="true"></div>
 <a class="skip-link" href="#main">Skip to content</a>
 
 <header class="topbar">
@@ -56,34 +61,45 @@
 <main id="main">
 
   <!-- ==========================================================
-       HERO —— 姓名与邮箱必须同时出现在这里
+       HERO —— 姓名与邮箱必须同时出现在这里。
        OpenReview / ACL ARR 的审核人要在页面上同时看到两者，
-       所以这两行不要拆开、不要把邮箱换成图片或 "name [at] domain" 写法。
+       所以这两块不要拆开，也不要把邮箱换成图片或 "name [at] domain" 写法。
        ========================================================== -->
+  <!-- 注意：hero 刻意不加 .reveal —— 姓名和邮箱必须首屏立即可见，
+       不能依赖 JS 或动画完成 -->
   <section class="hero">
-    <img class="avatar" src="assets/avatar.svg" width="132" height="132"
-         alt="Chuanhao Zhao" />
+    <div class="avatar-ring">
+      <img class="avatar" src="assets/avatar.svg" width="136" height="136"
+           alt="Chuanhao Zhao" />
+    </div>
 
     <div class="hero-text">
-      <h1>
-        Chuanhao Zhao
-        <span class="name-cn" lang="zh-Hans">赵传浩</span>
-      </h1>
+      <h1>Chuanhao Zhao</h1>
+      <p class="name-cn" lang="zh-Hans">赵传浩</p>
 
       <p class="role">
         Undergraduate Student, Engineering Experimental Class<br />
         College of Software, <a href="https://www.jlu.edu.cn/">Jilin University</a>
       </p>
 
-      <p class="email-line">
-        <a href="mailto:zhaoch5524@mails.jlu.edu.cn">zhaoch5524@mails.jlu.edu.cn</a>
+      <p class="mail-row">
+        <a class="mail-pill" href="mailto:zhaoch5524@mails.jlu.edu.cn">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2.5" y="4.5" width="19" height="15" rx="2.5"/><path d="m3 7 8.2 5.6a1.5 1.5 0 0 0 1.6 0L21 7"/></svg>
+          zhaoch5524@mails.jlu.edu.cn
+        </a>
         <button class="copy-btn" type="button" data-copy="zhaoch5524@mails.jlu.edu.cn" aria-label="Copy email address">copy</button>
       </p>
 
-      <!-- 有了就取消注释，并换成真实地址。没有的条目整行删掉。
+      <ul class="tags" aria-label="Research areas">
+        <li>LLMs</li>
+        <li>Agents</li>
+        <li>Memory</li>
+      </ul>
+
+      <!-- 有了就取消注释，并换成真实地址；没有的条目整行删掉。
            DBLP / ACL Anthology / Semantic Scholar 要等第一篇论文被收录后才会自动生成。
       <ul class="links" aria-label="Profiles">
-        <li><a href="https://github.com/yourhandle">GitHub</a></li>
+        <li><a href="https://github.com/zch6a">GitHub</a></li>
         <li><a href="https://scholar.google.com/citations?user=XXXXXXX">Google Scholar</a></li>
         <li><a href="https://orcid.org/0000-0000-0000-0000">ORCID</a></li>
         <li><a href="assets/cv.pdf">CV</a></li>
@@ -95,10 +111,10 @@
   <!-- ==========================================================
        ABOUT
        ========================================================== -->
-  <section id="about">
+  <section id="about" class="reveal">
     <h2>About</h2>
 
-    <p>
+    <p class="lead">
       I am an undergraduate student in the Engineering Experimental Class at the
       College of Software, <a href="https://www.jlu.edu.cn/">Jilin University</a>.
       My research interest is large language models — in particular LLM-based agents
@@ -106,28 +122,46 @@
       record consistent, and retrieves the right part of it later.
     </p>
 
-    <p>
+    <p class="about-tail">
       I am always happy to talk about these topics — feel free to reach out by email.
     </p>
 
     <h3>Research interests</h3>
-    <ul class="interests">
-      <li><strong>Large language models.</strong> Reasoning, post-training, and evaluation.</li>
-      <li><strong>LLM agents.</strong> Planning, tool use, and long-horizon tasks.</li>
-      <li><strong>Agent memory.</strong> How agents store, maintain, and retrieve what they have learned.</li>
+    <ul class="cards">
+      <li class="card">
+        <span class="card-num">01</span>
+        <h4 class="card-title">Large language models</h4>
+        <p class="card-desc">Reasoning, post-training, and evaluation.</p>
+      </li>
+      <li class="card">
+        <span class="card-num">02</span>
+        <h4 class="card-title">LLM agents</h4>
+        <p class="card-desc">Planning, tool use, and long-horizon tasks.</p>
+      </li>
+      <li class="card">
+        <span class="card-num">03</span>
+        <h4 class="card-title">Agent memory</h4>
+        <p class="card-desc">How agents store, maintain, and retrieve what they have learned.</p>
+      </li>
     </ul>
   </section>
 
   <!-- ==========================================================
        CONTACT
        ========================================================== -->
-  <section id="contact">
+  <section id="contact" class="reveal">
     <h2>Contact</h2>
     <dl class="contact">
-      <dt>Email</dt>
+      <dt>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2.5" y="4.5" width="19" height="15" rx="2.5"/><path d="m3 7 8.2 5.6a1.5 1.5 0 0 0 1.6 0L21 7"/></svg>
+        Email
+      </dt>
       <dd><a href="mailto:zhaoch5524@mails.jlu.edu.cn">zhaoch5524@mails.jlu.edu.cn</a></dd>
 
-      <dt>Address</dt>
+      <dt>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21.5s7-5.6 7-11a7 7 0 1 0-14 0c0 5.4 7 11 7 11z"/><circle cx="12" cy="10.5" r="2.6"/></svg>
+        Address
+      </dt>
       <dd>College of Software, Jilin University, Changchun, Jilin 130012, China</dd>
     </dl>
   </section>
@@ -140,7 +174,7 @@
        ========================================================== -->
 
   <!-- ===== NEWS：新条目加在最上面，超过 4 条会自动折叠 =====
-  <section id="news">
+  <section id="news" class="reveal">
     <h2>News</h2>
     <ul class="news-list">
       <li><time datetime="2026-09">Sep 2026</time><span>动态内容。</span></li>
@@ -151,7 +185,7 @@
 
   <!-- ===== PUBLICATIONS：复制整个 <article class="pub"> 块来新增一篇，
                         自己的名字用 <strong> 包起来 =====
-  <section id="publications">
+  <section id="publications" class="reveal">
     <h2>Publications</h2>
     <p class="section-note">* denotes equal contribution.</p>
 
@@ -178,7 +212,7 @@
   ===== /PUBLICATIONS ===== -->
 
   <!-- ===== EDUCATION & EXPERIENCE：把年份换成真实的入学/预计毕业年份 =====
-  <section id="experience">
+  <section id="experience" class="reveal">
     <h2>Education &amp; Experience</h2>
 
     <h3>Education</h3>
@@ -208,7 +242,7 @@
   ===== /EDUCATION ===== -->
 
   <!-- ===== AWARDS & SERVICE：本科阶段一般写竞赛获奖、奖学金 =====
-  <section id="awards">
+  <section id="awards" class="reveal">
     <h2>Awards &amp; Service</h2>
 
     <h3>Awards</h3>
@@ -228,7 +262,7 @@
 <footer class="site-footer">
   <p>
     &copy; <span id="year">2026</span> Chuanhao Zhao.
-    Last updated <time id="updated" datetime="2026-09-18">September 2026</time>.
+    Last updated <time id="updated" datetime="2026-09-21">September 2026</time>.
   </p>
 </footer>
 
