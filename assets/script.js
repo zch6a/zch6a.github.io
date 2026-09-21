@@ -34,11 +34,16 @@
   /* 硬显示：直接卸掉 .reveal（唯一把 opacity 设为 0 的地方），
      而不是加 .in 去跑淡入过渡 —— 过渡本身也可能不执行
      （隐藏标签页、零高度视口、无头浏览器），那样内容照样看不见。 */
+  var hardShow = function (el) {
+    el.classList.remove("reveal");
+    el.classList.add("in");
+  };
   var showAll = function () {
-    revealables.forEach(function (el) {
-      el.classList.remove("reveal");
-      el.classList.add("in");
-    });
+    revealables.forEach(hardShow);
+  };
+  var stuckInvisible = function (el) {
+    return el.classList.contains("reveal") &&
+           parseFloat(getComputedStyle(el).opacity) < 0.99;
   };
 
   if (reduced || !("IntersectionObserver" in window)) {
@@ -53,14 +58,24 @@
     }, { rootMargin: "0px 0px -8% 0px", threshold: 0.06 });
     revealables.forEach(function (el) { ro.observe(el); });
 
-    /* 安全网：正常情况下首屏那一节会立刻被观察到。如果 2.5 秒后一个都没亮，
-       说明观察器没工作（零高度视口、异常的无头浏览器、爬虫等），
-       此时直接全部显示 —— 宁可丢掉动画，也不能让内容消失。 */
+    /* 安全网，两条规则，覆盖两种失效方式：
+       ① 一个都没亮 → 观察器根本没工作（零高度视口、无头浏览器、爬虫），
+          整页硬显示，连同折叠线以下的内容。
+       ② 有的亮了，但某个在视口内的元素仍停在 opacity:0 → 类加上了、
+          过渡没跑起来，单独把它硬显示。折叠线以下的保留滚动动画。
+       宁可丢掉动画，也不能让内容消失。 */
     setTimeout(function () {
       var anyShown = Array.prototype.some.call(revealables, function (el) {
-        return el.classList.contains("in");
+        return !el.classList.contains("reveal") || !stuckInvisible(el);
       });
-      if (!anyShown) showAll();
+      if (!anyShown) { showAll(); return; }
+
+      revealables.forEach(function (el) {
+        if (!stuckInvisible(el)) return;
+        var r = el.getBoundingClientRect();
+        var inView = !innerHeight || (r.top < innerHeight && r.bottom > 0);
+        if (inView) hardShow(el);
+      });
     }, 2500);
   }
 

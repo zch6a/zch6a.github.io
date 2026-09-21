@@ -41,6 +41,19 @@ OpenReview / ACL ARR 要求那个网址上**同时能看到你的姓名和邮箱
 git add -A && git commit -m "Update homepage" && git push
 ```
 
+## 改完 CSS/JS 必做一步
+
+`index.html` 里引用样式和脚本时带了版本号：
+
+```html
+<link rel="stylesheet" href="assets/style.css?v=2" />
+<script src="assets/script.js?v=2"></script>
+```
+
+GitHub Pages 会让浏览器缓存这两个文件（约 10 分钟起），**改完内容如果不动这个数字，
+回访的人看到的还是旧样式**。所以每次改 `style.css` 或 `script.js` 后，
+把两处 `?v=` 的数字 +1 再提交。只改 `index.html` 正文的话不用管。
+
 ## 后续补充
 
 - **换头像**：照片放成 `assets/avatar.jpg`（方图，≥400×400），
